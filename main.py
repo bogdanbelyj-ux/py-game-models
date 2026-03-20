@@ -10,18 +10,18 @@ def main() -> None:
         players_data = json.load(f)
 
     for key, value in players_data.items():
-        race = Race.objects.create(
+        race, _ = Race.objects.get_or_create(
             name=value["race"]["name"],
             description=value["race"]["description"]
         )
         for skill in value["race"]["skills"]:
-            skills = Skill.objects.create(
+            skills, _ = Skill.objects.get_or_create(
                 name=skill["name"],
                 bonus=skill["bonus"],
                 race=race,
             )
 
-        guild = Guild.objects.create(
+        guild, _ = Guild.objects.get_or_create(
             name=value["guild"]["name"],
             description=value["guild"]["description"],
         )
@@ -34,7 +34,7 @@ def main() -> None:
             guild=guild,
         )
 
-    print(race, skills, guild, player)
+    print(player)
 
 
 if __name__ == "__main__":
