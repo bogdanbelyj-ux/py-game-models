@@ -21,10 +21,15 @@ def main() -> dict:
                 defaults={"bonus": skill["bonus"]},
             )
 
-        guild, _ = Guild.objects.get_or_create(
-            name=value["guild"]["name"],
-            defaults={"description": value["guild"]["description"]}
-        )
+        guild_data = value.get("guild")
+
+        if guild_data:
+            guild, _ = Guild.objects.get_or_create(
+                name=guild_data.get("name"),
+                defaults={"description": guild_data.get("description")}
+            )
+        else:
+            guild = None
 
         Player.objects.create(
             nickname=key,
